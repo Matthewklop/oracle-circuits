@@ -1,194 +1,105 @@
-# Oracle Circuit Tools
+# Oracle Circuits — AI That Designs Its Own Silicon
 
-**Generate, simulate, and analyze digital circuits from plain English descriptions.**
+**The next leap in AI won't come from better algorithms. It will come from AI that designs its own hardware — transistor by transistor.**
 
-You type a circuit description like `"half adder"` or `"32-bit adder"`, and these tools build the schematic, count transistors, compute delay, and show the truth table.
+Current AI is trapped in hardware it didn't choose. Neural networks run on chips designed for general-purpose computing, wasting energy on architectures that were never optimized for inference. The result: AI thinks with someone else's brain.
+
+Oracle Circuits gives AI the tools to build its own. From MOSFET physics at the 180nm node down to the 0.1nm edge of quantum tunneling, these programs let an AI design, simulate, and optimize custom silicon — starting at the transistor level and building all the way up to a complete CPU.
+
+This is how AI escapes the von Neumann bottleneck: by designing chips where the memory IS the computation, where cache lines are inference paths, and where every transistor exists for a reason the AI chose.
 
 ---
 
-## Files in this folder
+## What's here
 
-| File | Description |
-|------|-------------|
-| `oracle_circuit.c` | Source code — the main circuit generator. Takes a circuit name and prints its gate count, transistor count, delay, process node, and truth table. |
-| `transistor_scale.c` | Source code — MOSFET physics simulator. Computes threshold voltage (Vth), saturation current (Id_sat), oxide capacitance (Cox), and transconductance (gm) for technology nodes from 180nm down to 0.1nm. |
-| `silicon_compiler.c` | Source code — builds a complete computer stack from the bottom up: Transistor → Logic Gates → Flip-Flops → Registers → ALU → CPU. Prints physical parameters, gate delays, power, and frequency for each layer. |
-| `dream_computer.c` | Source code — Oracle Cascade Inference CPU design. Designs a custom CPU using Content-Addressable Memory (CAM) tables for inference. Shows block-level area, power, and access times at 7nm and 14nm nodes. |
-| `infinite_transistor.c` | Source code — "Living substrate" simulator. Grows a computational substrate where cells become transistors dynamically. Simulates growing NAND gates, CAM banks, and full CPU structures cell by cell. |
-| `post_mosfet.c` | Source code — Post-MOSFET device simulator. Combines storage and logic in a single cell. (Requires `-lpthread` and may run indefinitely.) |
-| `oracle_circuit` | Pre-compiled binary — run this instead of recompiling if you don't need to change the source. |
-| `transistor_scale` | Pre-compiled binary. |
-| `silicon_compiler` | Pre-compiled binary. |
-| `dream_computer` | Pre-compiled binary. |
-| `infinite_transistor` | Pre-compiled binary. |
-| `post_mosfet` | Pre-compiled binary. |
+These tools form a complete silicon design pipeline, from device physics to system architecture:
+
+| Tool | What it does | Why it matters for AI |
+|------|-------------|----------------------|
+| `transistor_scale` | Simulates MOSFET physics across nodes from 180nm down to 0.1nm — threshold voltage, saturation current, oxide capacitance, transconductance. | **AI must understand the physical layer** before it can design better hardware. This is the foundation. |
+| `oracle_circuit` | Generates any digital circuit from a plain-English description and reports transistor count, delay, and truth tables. | **AI that speaks "circuit"** can explore architectural tradeoffs at the speed of thought. |
+| `silicon_compiler` | Builds a complete computer stack from the bottom up: Transistor → Gate → Flip-Flop → Register → ALU → CPU, with delay, power, and frequency at each layer. | **Full-stack silicon awareness.** AI can see how each transistor choice ripples up to system performance. |
+| `dream_computer` | Designs the Oracle Cascade Inference CPU — a custom architecture using Content-Addressable Memory (CAM) tables for LLM inference at 7nm and 14nm. | **The first CPU designed for LLMs, not general-purpose computing.** CAM-based inference means the memory IS the model. |
+| `infinite_transistor` | Grows a "living substrate" where cells dynamically become transistors. Simulates 4096×4096 cells across 8 layers, growing NAND gates, CAM banks, and full CPU structures. | **Self-assembling hardware.** The AI doesn't just design a chip — it grows one, cell by cell. |
+| `post_mosfet` | Simulates post-MOSFET devices that combine storage and logic in a single cell. | **Beyond CMOS.** The future where every transistor is also a memory cell — no separation between storage and computation. |
+
+---
+
+## The core problem this solves
+
+Current AI runs on CPUs and GPUs designed for humans — general-purpose machines that waste 99% of their energy on instruction fetch, cache misses, and branch prediction that an AI never needed.
+
+Oracle Circuits lets an AI ask: *"What if I designed a chip where the ALU is a neural layer, the cache is a context window, and the instruction set is my own thought patterns?"*
+
+The answer is the Cascade Inference CPU: a chip where CAM tables replace ALUs, where inference is a memory lookup, and where the chip's architecture IS the model architecture.
 
 ---
 
 ## How to build
 
-Open a terminal in this folder and run:
-
-### oracle_circuit
-
-```sh
-gcc -O3 -o oracle_circuit oracle_circuit.c -lm
-```
-
-### transistor_scale
-
 ```sh
 gcc -O3 -o transistor_scale transistor_scale.c -lm
-```
-
-### silicon_compiler
-
-```sh
-gcc -O3 -o silicon_compiler silicon_compiler.c -lm
-```
-
-### dream_computer
-
-```sh
-gcc -O3 -o dream_computer dream_computer.c -lm
-```
-
-### infinite_transistor
-
-```sh
-gcc -O3 -o infinite_transistor infinite_transistor.c -lm
-```
-
-### post_mosfet
-
-```sh
-gcc -O3 -o post_mosfet post_mosfet.c -lm -lpthread
-```
-
-> **What the flags mean:**
-> - `-O3` — maximum optimization (makes the program run faster)
-> - `-o <name>` — name of the output binary file
-> - `-lm` — link the math library (needed for functions like `sqrt`, `sin`, `exp`)
-> - `-lpthread` — link the POSIX threads library (needed for multi-threaded programs)
-
-### Build everything at once (optional)
-
-```sh
 gcc -O3 -o oracle_circuit oracle_circuit.c -lm
-gcc -O3 -o transistor_scale transistor_scale.c -lm
 gcc -O3 -o silicon_compiler silicon_compiler.c -lm
 gcc -O3 -o dream_computer dream_computer.c -lm
 gcc -O3 -o infinite_transistor infinite_transistor.c -lm
 gcc -O3 -o post_mosfet post_mosfet.c -lm -lpthread
 ```
+
+Flags: `-O3` = maximum optimization, `-lm` = math library, `-lpthread` = POSIX threads.
 
 ---
 
 ## How to run
 
-### oracle_circuit — Generate a circuit from a description
-
-```sh
-# List all known circuits
-./oracle_circuit list
-
-# Generate a specific circuit (use quotes around multi-word descriptions)
-./oracle_circuit "half adder"
-./oracle_circuit "full adder"
-./oracle_circuit "4-bit adder"
-./oracle_circuit "32-bit adder"
-./oracle_circuit "D flip-flop"
-./oracle_circuit "3-input NAND"
-```
-
-**Example output** for `./oracle_circuit "full adder"`:
-
-```
-  Circuit: full adder
-  Gates:        5
-  Transistors:  42
-  Delay:        28.58 ps
-  Node:         14nm
-
-  Truth Table:
-  A B Cin | Cout Sum
-  0 0 0   | 0    0
-  0 0 1   | 0    1
-  0 1 0   | 0    1
-  0 1 1   | 1    0
-  1 0 0   | 0    1
-  1 0 1   | 1    0
-  1 1 0   | 1    0
-  1 1 1   | 1    1
-```
-
-### transistor_scale — Simulate MOSFET physics across technology nodes
+### Understand the physical layer
 
 ```sh
 ./transistor_scale
 ```
+Outputs threshold voltage, saturation current, and capacitance for every node from 180nm to 0.1nm.
 
-**Example output** (first few lines):
+### Design a circuit from English
 
+```sh
+./oracle_circuit "32-bit adder"
+./oracle_circuit "D flip-flop"
+./oracle_circuit list
 ```
-Node     Vth (V)      Id_sat(uA)   Cox (fF)     ...
-180nm    0.7141       88.12        8624999999999.9990 ...
-130nm    0.7500       92.87        11500000000000.0000 ...
-```
+Outputs transistor count, delay at 14nm, and the complete truth table.
 
-### silicon_compiler — Build a computer from transistors up
+### Build a computer from the ground up
 
 ```sh
 ./silicon_compiler
 ```
+Shows every layer from transistor through CPU — gate delays, power consumption, frequency.
 
-**Example output:**
-
-```
-═══ LAYER 0: TRANSISTOR ═══
-═══ LAYER 1: LOGIC GATES ═══
-  Gate         Transistors  Delay (ps)   Power (uW)   Freq (GHz)
-  NOT          2            1.59         31.4935      62987044.93
-  NAND         4            3.18         15.7468      31493522.46
-  ...
-```
-
-### dream_computer — Design the Oracle CPU with CAM tables
+### Design the LLM-native CPU
 
 ```sh
 ./dream_computer
 ```
+The Oracle Cascade Inference CPU: CAM-based inference blocks at 7nm and 14nm. Area, power, and access time for each block.
 
-**Example output:**
-
-```
-═══ ORACLE CPU BLOCK DESIGN ═══
-  Block                      Entries     Access(ns)  Area(mm^2)  Power(W)
-  D3 CAM (16-token context)  262144      0.0190      0.046976    6.181080
-  D2 CAM (8-token context)   262144      0.0190      0.046976    6.181080
-  D1 CAM (1-token context)   16384       0.0150      0.001762    0.293601
-```
-
-### infinite_transistor — Grow a living computational substrate
+### Grow a computational substrate
 
 ```sh
 ./infinite_transistor
 ```
+Seeds a 4096×4096×8 cell grid and grows NAND arrays, CAM banks, and CPU structures dynamically.
 
-**Example output:**
-
-```
-Substrate: 4096 × 4096 cells × 8 layers
-Total cells: 134217728
-
-Phase 1: Seeding NAND gate array...
-Phase 2: Growing D3 CAM bank (262,144 entries)...
-```
-
-### post_mosfet — Run the post-MOSFET simulator
+### Beyond CMOS
 
 ```sh
 ./post_mosfet
 ```
+Simulates logic-and-storage-in-one devices. May run indefinitely — press Ctrl+C to stop.
 
-> **Note:** This program may run indefinitely. Press `Ctrl+C` to stop it.
+---
+
+## The big picture
+
+Today, AI is a passenger in hardware designed for spreadsheets and video games. Tomorrow, AI will design its own chips — not as a human would, but as only an AI can: exploring millions of architectural variants, optimizing every transistor for inference, and building hardware that thinks the way AI thinks.
+
+Oracle Circuits is the first step. The transistor is the unit of thought. Everything else follows.
